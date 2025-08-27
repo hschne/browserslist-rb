@@ -25,9 +25,8 @@ Gem::Specification.new do |spec|
     LICENSE.txt
     CHANGELOG.md
     CODE_OF_CONDUCT.md
-    lib/**/*.rb
-    exe/*
-  ]
+    exe/browserslist
+  ] + Dir["lib/**/*.rb"]
   spec.bindir = "exe"
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]

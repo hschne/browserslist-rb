@@ -31,13 +31,15 @@ module Browserslist
 
     def parser
       @parser ||= OptionParser.new do |opts|
-        opts.banner = "Usage: browserslist [command] [options]"
-        opts.separator ""
-        opts.separator "Commands:"
-        opts.separator "    generate [query]    Generate .browserslist file"
-        opts.separator "    browsers            Show supported browsers (from existing file)"
-        opts.separator ""
-        opts.separator "Options:"
+        opts.banner = <<~BANNER
+          Usage: browserslist [command] [options]
+
+          Commands:
+              generate [query]    Generate .browserslist file
+              browsers            Show supported browsers (from existing file)
+
+          Options:
+        BANNER
 
         opts.on("-f", "--file PATH", "Output file path (default: .browserslist)") do |path|
           @options[:file_path] = path
