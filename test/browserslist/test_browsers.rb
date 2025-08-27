@@ -1,0 +1,107 @@
+# frozen_string_literal: true
+
+require_relative "../test_helper"
+
+module Browserslist
+  class TestBrowsers < Minitest::Test
+    def setup
+      @original_strict = Browserslist.configuration.strict
+      Browserslist.configuration.strict = false
+    end
+
+    def teardown
+      Browserslist.configuration.strict = @original_strict
+    end
+
+    def test_parse_returns_minimal_versions
+      content = "chrome 119\nchrome 118"
+
+      browsers = Browserslist::Browsers.parse(content)
+
+      assert_equal 118.0, browsers[:chrome]
+    end
+
+    def test_parse_handles_version_ranges
+      content = "safari 18.5-18.6\nsafari 17.2"
+
+      browsers = Browserslist::Browsers.parse(content)
+
+      assert_equal 17.2, browsers[:safari]
+    end
+
+    def test_parse_normalizes_browser_names
+      content = "and_chr 118\nand_ff 120"
+
+      browsers = Browserslist::Browsers.parse(content)
+
+      assert_equal 118.0, browsers[:chrome]
+      assert_equal 120.0, browsers[:firefox]
+    end
+
+    def test_parse_ignores_comments
+      content = "# comment\nchrome 119"
+
+      browsers = Browserslist::Browsers.parse(content)
+
+      assert_equal({chrome: 119.0}, browsers)
+    end
+
+    def test_parse_ignores_empty_lines
+      content = "chrome 119\n\nfirefox 121"
+
+      browsers = Browserslist::Browsers.parse(content)
+
+      assert_equal 2, browsers.size
+    end
+
+    def test_parse_handles_unknown_browsers
+      content = "unknown_browser 1.0\nchrome 119"
+
+      browsers = Browserslist::Browsers.parse(content)
+
+      assert_equal({chrome: 119.0}, browsers)
+    end
+
+    def test_parse_handles_malformed_lines
+      content = "malformed_line\nchrome 119"
+
+      browsers = Browserslist::Browsers.parse(content)
+
+      assert_equal({chrome: 119.0}, browsers)
+    end
+
+    def test_parse_strict_mode_adds_missing_browsers
+      Browserslist.configuration.strict = true
+      content = "chrome 119"
+
+      browsers = Browserslist::Browsers.parse(content)
+
+      assert_equal 119.0, browsers[:chrome]
+      assert_equal false, browsers[:firefox]
+      assert_equal false, browsers[:safari]
+      assert_equal false, browsers[:edge]
+      assert_equal false, browsers[:opera]
+      assert_equal false, browsers[:ie]
+    end
+
+    def test_parse_non_strict_mode_omits_missing_browsers
+      content = "chrome 119"
+      browsers = Browserslist::Browsers.parse(content)
+
+      assert_equal({chrome: 119.0}, browsers)
+    end
+
+    def test_file_contents_returns_nil_when_file_missing
+      original_path = Browserslist.configuration.file_path
+      Browserslist.configuration.file_path = "nonexistent.browserslist"
+
+      browsers_parser = Browserslist::Browsers.new
+
+      assert_output(/Warning.*not found/) do
+        assert_nil browsers_parser.file_contents
+      end
+    ensure
+      Browserslist.configuration.file_path = original_path
+    end
+  end
+end

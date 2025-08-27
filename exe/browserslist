@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require "browserslist"
+
+Browserslist::Cli.new(ARGV).run
