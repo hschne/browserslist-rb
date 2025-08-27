@@ -18,10 +18,10 @@ bundle add browserslist
 
 ### Generating a Browserslist
 
-`browserslist-rb` reads from a `.browserslist` file that must be generated upfront or at build time. This gem ships with a generator that requires `npm/npx` to be installed.
+`browserslist-rb` reads from a `.browserslist.json` file that must be generated upfront or at build time. This gem ships with a generator that requires `npm/npx` to be installed.
 
 ```bash
-# Generate default .browserslist file
+# Generate default .browserslist.json file
 bundle exec browserslist generate
 
 ```
@@ -54,7 +54,7 @@ Configure the gem like so:
 ```ruby
 Browserslist.configure do |config|
   # Set custom file path 
-  config.file_path = ".browserslist"
+  config.file_path = ".browserslist.json"
   
   # Enable/disable strict mode 
   # When strict mode is enabled, missing browsers hash value will be set to false, which in conjunction with `allow_browser` means they will be forbidden from accessing your application.

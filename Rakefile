@@ -13,7 +13,7 @@ require_relative "lib/browserslist"
 require "optparse"
 
 namespace :browserslist do
-  desc "Generate .browserslist file"
+  desc "Generate .browserslist.json file"
   task :update do
     file_path = Browserslist.generate
     puts "Generated browserslist file: #{file_path}"

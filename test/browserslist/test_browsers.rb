@@ -93,7 +93,7 @@ module Browserslist
 
     def test_file_contents_returns_nil_when_file_missing
       original_path = Browserslist.configuration.file_path
-      Browserslist.configuration.file_path = "nonexistent.browserslist"
+      Browserslist.configuration.file_path = "nonexistent.browserslist.json"
 
       browsers_parser = Browserslist::Browsers.new
 

@@ -35,13 +35,13 @@ module Browserslist
           Usage: browserslist [command] [options]
 
           Commands:
-              generate [query]    Generate .browserslist file
+              generate [query]    Generate .browserslist.json file
               browsers            Show supported browsers (from existing file)
 
           Options:
         BANNER
 
-        opts.on("-f", "--file PATH", "Output file path (default: .browserslist)") do |path|
+        opts.on("-f", "--file PATH", "Output file path (default: .browserslist.json)") do |path|
           @options[:file_path] = path
         end
 

@@ -2,7 +2,7 @@
 
 module Browserslist
   class Configuration
-    DEFAULT_FILE_PATH = ".browserslist"
+    DEFAULT_FILE_PATH = ".browserslist.json"
 
     attr_accessor :file_path, :strict
 

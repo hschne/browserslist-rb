@@ -13,7 +13,7 @@ module Browserslist
       Browserslist.configuration.file_path = @original_config
     end
 
-    def temp_file(suffix = ".browserslist")
+    def temp_file(suffix = ".browserslist.json")
       Tempfile.new(["browserslist_test", suffix]).path
     end
 
