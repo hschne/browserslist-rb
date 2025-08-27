@@ -14,7 +14,7 @@ module Browserslist
     end
 
     def test_parse_returns_minimal_versions
-      content = "chrome 119\nchrome 118"
+      content = {browsers: ["chrome 119", "chrome 118"]}.to_json
 
       browsers = Browserslist::Browsers.parse(content)
 
@@ -22,7 +22,7 @@ module Browserslist
     end
 
     def test_parse_handles_version_ranges
-      content = "safari 18.5-18.6\nsafari 17.2"
+      content = {browsers: ["safari 18.5-18.6", "safari 17.2"]}.to_json
 
       browsers = Browserslist::Browsers.parse(content)
 
@@ -30,7 +30,7 @@ module Browserslist
     end
 
     def test_parse_normalizes_browser_names
-      content = "and_chr 118\nand_ff 120"
+      content = {browsers: ["and_chr 118", "and_ff 120"]}.to_json
 
       browsers = Browserslist::Browsers.parse(content)
 
@@ -38,32 +38,16 @@ module Browserslist
       assert_equal 120.0, browsers[:firefox]
     end
 
-    def test_parse_ignores_comments
-      content = "# comment\nchrome 119"
-
-      browsers = Browserslist::Browsers.parse(content)
-
-      assert_equal({chrome: 119.0}, browsers)
-    end
-
-    def test_parse_ignores_empty_lines
-      content = "chrome 119\n\nfirefox 121"
-
-      browsers = Browserslist::Browsers.parse(content)
-
-      assert_equal 2, browsers.size
-    end
-
     def test_parse_handles_unknown_browsers
-      content = "unknown_browser 1.0\nchrome 119"
+      content = {browsers: ["unknown_browser 1.0", "chrome 119"]}.to_json
 
       browsers = Browserslist::Browsers.parse(content)
 
       assert_equal({chrome: 119.0}, browsers)
     end
 
-    def test_parse_handles_malformed_lines
-      content = "malformed_line\nchrome 119"
+    def test_parse_handles_malformed_entries
+      content = {browsers: ["malformed_entry", "chrome 119"]}.to_json
 
       browsers = Browserslist::Browsers.parse(content)
 
@@ -72,7 +56,7 @@ module Browserslist
 
     def test_parse_strict_mode_adds_missing_browsers
       Browserslist.configuration.strict = true
-      content = "chrome 119"
+      content = {browsers: ["chrome 119"]}.to_json
 
       browsers = Browserslist::Browsers.parse(content)
 
@@ -85,7 +69,7 @@ module Browserslist
     end
 
     def test_parse_non_strict_mode_omits_missing_browsers
-      content = "chrome 119"
+      content = {browsers: ["chrome 119"]}.to_json
       browsers = Browserslist::Browsers.parse(content)
 
       assert_equal({chrome: 119.0}, browsers)
@@ -103,5 +87,6 @@ module Browserslist
     ensure
       Browserslist.configuration.file_path = original_path
     end
+
   end
 end

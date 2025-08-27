@@ -68,9 +68,7 @@ module Browserslist
         exit 1
       end
 
-      browsers.each do |browser, version|
-        puts "#{browser}: #{version}"
-      end
+      puts browsers.inspect
     end
   end
 end

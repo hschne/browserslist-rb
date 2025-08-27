@@ -1,0 +1,32 @@
+{
+  "browsers": [
+    "and_chr 139",
+    "and_ff 142",
+    "and_qq 14.9",
+    "and_uc 15.5",
+    "android 139",
+    "chrome 139",
+    "chrome 138",
+    "chrome 137",
+    "chrome 112",
+    "chrome 109",
+    "edge 139",
+    "edge 138",
+    "firefox 142",
+    "firefox 141",
+    "firefox 140",
+    "firefox 128",
+    "ios_saf 18.5-18.6",
+    "ios_saf 18.4",
+    "kaios 3.0-3.1",
+    "kaios 2.5",
+    "op_mini all",
+    "op_mob 80",
+    "opera 117",
+    "opera 116",
+    "safari 18.5-18.6",
+    "safari 18.4",
+    "samsung 28",
+    "samsung 27"
+  ]
+}

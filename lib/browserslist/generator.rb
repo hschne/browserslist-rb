@@ -22,7 +22,7 @@ module Browserslist
     def fetch_browserslist_data(query = nil)
       check_npx_availability!
 
-      cmd = ["npx", "browserslist"]
+      cmd = ["npx", "browserslist", "--json"]
       cmd << query if query
 
       stdout, stderr, status = Open3.capture3(*cmd)

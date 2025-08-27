@@ -18,13 +18,71 @@ bundle add browserslist
 
 ### Generating a Browserslist
 
-`browserslist-rb` reads from a `.browserslist.json` file that must be generated upfront or at build time. This gem ships with a generator that requires `npm/npx` to be installed.
+`browserslist-rb` reads from a `.browserslist.json` file that must be generated upfront or at build time. This gem ships with a generator that requires `npm/npx` to be installed. If you generate the file upfront you must make sure it's available at runtime.
 
 ```bash
 # Generate default .browserslist.json file
 bundle exec browserslist generate
-
 ```
+
+#### Build-Time Generation
+
+For Rails applications using modern bundlers, you can generate the browserslist file at build time, depending on your tooling.
+
+<details>
+<summary>Vite Ruby</summary>
+
+Add to `vite.config.ts` using a plugin:
+
+```typescript
+import { defineConfig } from 'vite'
+import { execSync } from 'child_process'
+
+export default defineConfig({
+  plugins: [
+    {
+      name: 'browserslist-generator',
+      configResolved() {
+        execSync('npx browserslist --json > .browserslist.json')
+      }
+    }
+  ]
+})
+```
+</details>
+
+<details>
+<summary>esbuild</summary>
+
+Use a build plugin in your esbuild configuration:
+
+```javascript
+require('esbuild').build({
+  plugins: [{
+    name: 'browserslist-generator',
+    setup(build) {
+      build.onStart(() => {
+        const browserslist = require('browserslist')
+        const fs = require('fs')
+        fs.writeFileSync('./.browserslist.json', JSON.stringify(browserslist()))
+      })
+    }
+  }]
+})
+```
+</details>
+
+<details>
+<summary>Asset Precompilation</summary>
+
+You may use the built-in rake task to hook into your asset precompilation process. First require the Rake tasks, then enhance your asset precompilation. Add this to your `lib/tasks/assets.rake`:
+
+```ruby
+require 'browserslist/rake'
+
+Rake::Task['assets:precompile'].enhance(['browserslist:update'])
+```
+</details>
 
 ### Using the API
 
@@ -46,6 +104,7 @@ You may preview the resulting hash using
 bundle exec browserslist browsers
 # => {chrome: 119.0, firefox: 128.0, edge: 138.0, safari: 18.4, opera: 80.0, ie: false}
 ```
+
 
 ## Configuration
 

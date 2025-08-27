@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "json"
+
 module Browserslist
   class Browsers
     def self.parse(content = nil)
@@ -27,13 +29,12 @@ module Browserslist
     private
 
     def parse_content(file_content)
+      parsed_json = JSON.parse(file_content)
+      browser_list = parsed_json["browsers"]
+
       result = {}
-
-      file_content.each_line do |line|
-        line = line.strip
-        next if line.empty? || line.start_with?("#")
-
-        browser, version = line.split(" ", 2)
+      browser_list.each do |browser_version|
+        browser, version = browser_version.split(" ", 2)
         next unless browser && version
 
         normalized_browser = normalize_browser_name(browser)
