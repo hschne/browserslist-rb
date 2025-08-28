@@ -30,6 +30,18 @@ bundle exec browserslist generate
 For Rails applications using modern bundlers, you can generate the browserslist file at build time, depending on your tooling.
 
 <details>
+<summary>Asset Precompilation</summary>
+
+You may use the built-in rake task to hook into your asset precompilation process. First require the Rake tasks, then enhance your asset precompilation. Add this to your `lib/tasks/assets.rake`:
+
+```ruby
+require 'browserslist/rake'
+
+Rake::Task['assets:precompile'].enhance(['browserslist:update'])
+```
+</details>
+
+<details>
 <summary>Vite Ruby</summary>
 
 Add to `vite.config.ts` using a plugin:
@@ -72,17 +84,6 @@ require('esbuild').build({
 ```
 </details>
 
-<details>
-<summary>Asset Precompilation</summary>
-
-You may use the built-in rake task to hook into your asset precompilation process. First require the Rake tasks, then enhance your asset precompilation. Add this to your `lib/tasks/assets.rake`:
-
-```ruby
-require 'browserslist/rake'
-
-Rake::Task['assets:precompile'].enhance(['browserslist:update'])
-```
-</details>
 
 ### Using the API
 

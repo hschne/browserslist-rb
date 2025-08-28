@@ -87,6 +87,5 @@ module Browserslist
     ensure
       Browserslist.configuration.file_path = original_path
     end
-
   end
 end

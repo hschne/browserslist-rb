@@ -12,4 +12,3 @@ namespace :browserslist do
     exit 1
   end
 end
-
