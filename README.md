@@ -1,10 +1,6 @@
-<div align="center">
-
 # Browserslist Ruby
 
 Bring [browserslist](https://github.com/browserslist/browserslist) to Ruby. 
-
-</div>
 
 Since Rails 8.0, you can use [allowed browsers](https://github.com/rails/rails/pull/50505) to block access to your application for specific browsers. This gem allows you to integrate your existing Browserlist configuration into Rails. 
 
